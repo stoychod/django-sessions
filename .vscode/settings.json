@@ -1,7 +1,12 @@
 {
-    "cSpell.words": [
-        "corsheaders"
-    ],
-    "python.analysis.typeCheckingMode": "basic",
-    "python.analysis.autoImportCompletions": true
+  "cSpell.words": ["corsheaders"],
+  "flake8.args": [
+    "--max-line-length=100"
+    // "--ignore=E402,F841,F401,E302,E305"
+  ],
+  "black-formatter.args": [
+    "--skip-string-normalization",
+    "--line-length",
+    "100"
+  ]
 }

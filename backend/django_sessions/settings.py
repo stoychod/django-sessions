@@ -37,9 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Register apps
+    'accounts.apps.AccountsConfig',
+    'user_profile.apps.UserProfileConfig',
+    # Register rest framework and corsheaders
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    # Register corsheaders middleware
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,7 +62,7 @@ ROOT_URLCONF = 'django_sessions.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR.joinpath('build')],  # template folder
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,8 +83,12 @@ WSGI_APPLICATION = 'django_sessions.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # Postgres database settings
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'django_backend',
+        'USER': 'django_backend',
+        'PASSWORD': 'django_backend',
+        'HOST': 'localhost',
     }
 }
 
@@ -116,6 +128,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+# static dirs where React static files will go
+STATICFILES_DIRS = [BASE_DIR.joinpath('build/static')]
+STATIC_ROOT = BASE_DIR.joinpath('static')
+
+
+REST_FRAMEWORK = {
+    # To access any view the user has to be authenticated. Any unauthenticated
+    # access to a view needs to be allowed explicitly in that view
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    # Set the default authentication scheme to the built in SessionAuthentication
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
+# Allow requests from all origins
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
