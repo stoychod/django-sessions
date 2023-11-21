@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import permissions
+from rest_framework import permissions, status
 from user_profile.models import UserProfile
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.utils.decorators import method_decorator
@@ -15,16 +16,27 @@ class SignupView(APIView):
     def post(self, request, format=None):
         data = self.request.data
 
-        username = data['username']
-        password = data['password']
-        re_password = data['re_password']
+        # Check for missing credentials
+        try:
+            username = data['username']
+            password = data['password']
+            retyped_password = data['retyped_password']
+        except KeyError as credential:
+            print('Invalid credential:', credential)
+            string_credential = credential.__str__().strip("'")
+            message = f'Please provide a valid {string_credential}.'
+            return Response({'message': message}, status.HTTP_400_BAD_REQUEST)
 
-        if password == re_password:
+        user = authenticate(username=username, password=password)
+        if password == retyped_password:
             if User.objects.filter(username=username).exists():
-                return Response({'error': 'Username already exists'})
+                return Response({'message': 'Username already exists'}, status.HTTP_409_CONFLICT)
             else:
                 if len(password) < 8:
-                    return Response({'error': 'Password must be at least 8 characters'})
+                    return Response(
+                        {'message': 'Password must be at least 8 characters'},
+                        status.HTTP_400_BAD_REQUEST,
+                    )
                 else:
                     user = User.objects.create_user(username=username, password=password)
 
@@ -32,9 +44,42 @@ class SignupView(APIView):
                         user=user, first_name='', last_name='', phone='', city=''
                     )
                     user_profile.save()
-                    return Response({'success': 'User created successfully'})
+                    return Response({'message': 'User created successfully.'})
         else:
-            return Response({'error': 'Passwords do not match'})
+            return Response({'message': 'Passwords do not match.'}, status.HTTP_400_BAD_REQUEST)
+
+
+@method_decorator(csrf_protect, name='dispatch')
+class LoginView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        data = request.data
+
+        # Check for missing credentials
+        try:
+            username = data['username']
+            password = data['password']
+        except KeyError as credential:
+            print('Invalid credential:', credential)
+            string_credential = credential.__str__().strip("'")
+            message = f'Please provide a valid {string_credential}.'
+            return Response({'message': message}, status.HTTP_400_BAD_REQUEST)
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return Response({'message': 'User authenticated.', 'username': user.username})
+        else:
+            return Response(
+                {'message': 'Incorrect username or password.'}, status.HTTP_401_UNAUTHORIZED
+            )
+
+
+class LogoutView(APIView):
+    def post(self, request, format=None):
+        logout(request)
+        return Response({'message': 'User logged out.'})
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
@@ -42,4 +87,24 @@ class GetCSRFToken(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, format=None):
-        return Response({'success': 'CSRF cookie set'})
+        return Response({'message': 'CSRF cookie set.'})
+
+
+class CheckAuthenticatedView(APIView):
+    def get(self, request, format=None):
+        # print(type(request.user))
+        # print(dir(request.user))
+        # print("is_authenticated:", request.user.is_authenticated)
+        # print("is_anonymous:", request.user.is_anonymous)
+        # print("id:", request.user.id)
+
+        return Response({'isAuthenticated': request.user.is_authenticated})
+
+
+class DeleteAccountView(APIView):
+    def delete(self, request, format=None):
+        user = User.objects.get(id=request.user.id)
+        print(user)
+        user.delete()
+
+        return Response({'message': 'User deleted successfully.'}, status.HTTP_204_NO_CONTENT)
