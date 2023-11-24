@@ -31,7 +31,7 @@ SECRET_KEY = getenv('SECRET_KEY', 'very_secret_key')
 # Get the DEBUG environment variable, default to False
 DEBUG = getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
