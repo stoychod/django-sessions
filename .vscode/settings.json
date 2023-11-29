@@ -1,8 +1,5 @@
 {
-  "cSpell.words": [
-    "corsheaders",
-    "dotenv"
-  ],
+  "cSpell.words": ["corsheaders", "dotenv", "dpage", "ipam", "pgadmin"],
   "flake8.args": [
     "--max-line-length=100"
     // "--ignore=E402,F841,F401,E302,E305"

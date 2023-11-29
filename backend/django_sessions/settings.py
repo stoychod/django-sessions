@@ -90,11 +90,11 @@ WSGI_APPLICATION = 'django_sessions.wsgi.application'
 DATABASES = {
     'default': {
         # Get database settings from environment
-        'ENGINE': getenv('ENGINE'),
-        'NAME': getenv('NAME'),
-        'USER': getenv('USER'),
-        'PASSWORD': getenv('PASSWORD'),
-        'HOST': getenv('HOST'),
+        'ENGINE': getenv('DB_ENGINE'),
+        'NAME': getenv('DB_NAME'),
+        'USER': getenv('DB_USER'),
+        'PASSWORD': getenv('DB_PASSWORD'),
+        'HOST': getenv('DB_HOST'),
     }
 }
 

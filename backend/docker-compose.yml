@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: django_backend_postgresql
+    image: postgres
+    # automatically restart the container
+    restart: always
+
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    networks:
+      app_net:
+        ipv4_address: "192.168.0.2"
+
+  pgadmin:
+    container_name: django_backend_pgadmin4
+    image: dpage/pgadmin4
+    restart: always
+
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+    networks:
+      app_net:
+        ipv4_address: "192.168.0.3"
+
+volumes:
+  db-data:
+    name: ${DATABASE_VOLUME}
+  pgadmin-data:
+    name: ${PGADMIN_VOLUME}
+
+networks:
+  app_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.0.0/24"
+          gateway: "192.168.0.1"
