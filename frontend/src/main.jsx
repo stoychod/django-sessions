@@ -1,13 +1,14 @@
+import "the-new-css-reset/css/reset.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
-import Root from "./routes/Root/Root";
-import Home from "./routes/Home/Home";
-import Register from "./routes/Register/Register";
-import Login from "./routes/Login/Login";
-import ErrorPage from "./routes/Error/Error";
+import Root from "./routes/Root";
+import Home from "./routes/Home";
+import Register from "./routes/Register";
+import Login from "./routes/Login";
+import ErrorPage from "./routes/Error";
 
 const router = createBrowserRouter([
   {
