@@ -20,7 +20,7 @@ class SignupView(APIView):
         try:
             username = data['username']
             password = data['password']
-            retyped_password = data['retyped_password']
+            passwordConfirmation = data['passwordConfirmation']
         except KeyError as credential:
             print('Invalid credential:', credential)
             string_credential = credential.__str__().strip("'")
@@ -28,7 +28,7 @@ class SignupView(APIView):
             return Response({'message': message}, status.HTTP_400_BAD_REQUEST)
 
         user = authenticate(username=username, password=password)
-        if password == retyped_password:
+        if password == passwordConfirmation:
             if User.objects.filter(username=username).exists():
                 return Response({'message': 'Username already exists'}, status.HTTP_409_CONFLICT)
             else:

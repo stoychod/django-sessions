@@ -48,12 +48,9 @@ INSTALLED_APPS = [
     'user_profile.apps.UserProfileConfig',
     # Register rest framework and corsheaders
     'rest_framework',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
-    # Register corsheaders middleware
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -151,10 +148,14 @@ REST_FRAMEWORK = {
     ],
 }
 
-# Allow requests from all origins
-CORS_ORIGIN_ALLOW_ALL = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# If 'Origin' header does not match the 'Host' header,
+# (e.g.Host: localhost:5173, Origin: http://localhost:5173)
+# you need to include the Origin in the CSRF_TRUSTED_ORIGINS list
+# https://docs.djangoproject.com/en/4.2/ref/settings/#csrf-trusted-origins
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']

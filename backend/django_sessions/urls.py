@@ -23,8 +23,8 @@ urlpatterns = [
     # Rest framework urls
     path('api-auth/', include('rest_framework.urls')),
     # Apps urls
-    path('accounts/', include('accounts.urls')),
-    path('profile/', include('user_profile.urls')),
+    path('api/accounts/', include('accounts.urls')),
+    path('api/profile/', include('user_profile.urls')),
 ]
 
 # If none of the urls above a matched forward routing to React
