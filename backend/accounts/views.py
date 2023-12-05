@@ -38,12 +38,13 @@ class SignupView(APIView):
                         status.HTTP_400_BAD_REQUEST,
                     )
                 else:
+                    # Create a user
                     user = User.objects.create_user(username=username, password=password)
 
-                    user_profile = UserProfile(
+                    # and a user profile for that user
+                    UserProfile.objects.create(
                         user=user, first_name='', last_name='', phone='', city=''
                     )
-                    user_profile.save()
                     return Response({'message': 'User created successfully.'})
         else:
             return Response({'message': 'Passwords do not match.'}, status.HTTP_400_BAD_REQUEST)
