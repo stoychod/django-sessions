@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "corsheaders",
+    "csrftoken",
     "dotenv",
     "dpage",
     "Formik",

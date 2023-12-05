@@ -1,3 +1,20 @@
 #root {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  flex-grow: 1;
+}
+
+/* Remove input background colour for Chrome autocomplete */
+/* https://stackoverflow.com/a/62624824 */
+input:-webkit-autofill {
+  -webkit-background-clip: text;
+}
+
+form {
+  min-width: 18rem;
 }
