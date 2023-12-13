@@ -92,6 +92,8 @@ class GetCSRFToken(APIView):
 
 
 class CheckAuthenticatedView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
     def get(self, request, format=None):
         # print(type(request.user))
         # print(dir(request.user))
