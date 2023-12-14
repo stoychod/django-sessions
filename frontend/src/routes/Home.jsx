@@ -12,9 +12,9 @@ export default function Home() {
           CSRF token
         </p>
         <hr className="my-4" />
-        <p>Click the button below to login</p>
+        <p>Click the button below to sign in</p>
         <Button variant="primary" as={Link} to={"/auth/login"}>
-          Login
+          Sign in
         </Button>
       </Container>
     </Container>

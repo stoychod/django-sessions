@@ -29,6 +29,16 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Authenticated"],
     }),
+    logoutUser: builder.mutation({
+      query: (csrftoken) => ({
+        url: "/accounts/logout/",
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      }),
+      invalidatesTags: ["Authenticated"],
+    }),
     checkAuthenticated: builder.query({
       query: () => "/accounts/authenticated",
       providesTags: ["Authenticated"],
@@ -40,4 +50,6 @@ export const {
   useGetCSRFCookieQuery,
   useRegisterUserMutation,
   useLoginUserMutation,
+  useCheckAuthenticatedQuery,
+  useLogoutUserMutation,
 } = apiSlice;
