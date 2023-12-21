@@ -71,7 +71,7 @@ export default function Login() {
               }).unwrap();
               // if response is ok reset the form
               resetForm();
-              navigate("/");
+              navigate("/dashboard");
             } catch (error) {
               console.error("Error:", error);
             }
@@ -134,7 +134,7 @@ export default function Login() {
               </Form>
               <Button
                 variant="outline-primary"
-                onClick={() => navigate("/auth/login")}
+                onClick={() => navigate("/auth/register")}
               >
                 Register
               </Button>

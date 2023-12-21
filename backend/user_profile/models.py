@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=255, default='')
-    last_name = models.CharField(max_length=255, default='')
-    phone = models.CharField(max_length=20, default='')
-    city = models.CharField(max_length=50, default='')
+    firstName = models.CharField(max_length=255, default='')
+    lastName = models.CharField(max_length=255, default='')
+    phone = models.CharField(max_length=20, default='', blank=True)
+    city = models.CharField(max_length=50, default='', blank=True)
 
 
 def __str__(self):

@@ -13,7 +13,12 @@ export default function Home() {
         </p>
         <hr className="my-4" />
         <p>Click the button below to sign in</p>
-        <Button variant="primary" as={Link} to={"/auth/login"}>
+        <Button
+          variant="primary"
+          // @ts-ignore
+          as={Link}
+          to={"/auth/login"}
+        >
           Sign in
         </Button>
       </Container>

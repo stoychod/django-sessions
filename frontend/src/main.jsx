@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "./store/store.js";
 import Root from "./routes/Root";
 import Home from "./routes/Home";
+import Dashboard from "./routes/Dashboard";
 import Register from "./routes/Register";
 import Login from "./routes/Login";
 import ErrorPage from "./routes/Error";
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
+      { path: "dashboard", element: <Dashboard /> },
       { path: "auth/register", element: <Register /> },
       { path: "auth/login", element: <Login /> },
     ],

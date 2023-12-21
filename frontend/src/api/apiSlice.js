@@ -3,10 +3,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
-  tagTypes: ["Authenticated"],
+  tagTypes: ["Authenticated", "UserProfile"],
   endpoints: (builder) => ({
     getCSRFCookie: builder.query({
-      query: () => "/accounts/csrf_cookie",
+      query: () => "/accounts/csrf_cookie/",
     }),
     registerUser: builder.mutation({
       query: ({ userData, csrftoken }) => ({
@@ -40,8 +40,27 @@ export const apiSlice = createApi({
       invalidatesTags: ["Authenticated"],
     }),
     checkAuthenticated: builder.query({
-      query: () => "/accounts/authenticated",
+      query: () => "/accounts/authenticated/",
       providesTags: ["Authenticated"],
+    }),
+    getUserProfile: builder.query({
+      query: (csrftoken) => ({
+        url: "/profile/",
+        method: "GET",
+        "X-CSRFToken": csrftoken,
+      }),
+      providesTags: ["UserProfile"],
+    }),
+    updateUserProfile: builder.mutation({
+      query: ({ userData, csrftoken }) => ({
+        url: "/profile/",
+        method: "PUT",
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+        body: userData,
+      }),
+      invalidatesTags: ["UserProfile"],
     }),
   }),
 });
@@ -52,4 +71,6 @@ export const {
   useLoginUserMutation,
   useCheckAuthenticatedQuery,
   useLogoutUserMutation,
+  useGetUserProfileQuery,
+  useUpdateUserProfileMutation,
 } = apiSlice;

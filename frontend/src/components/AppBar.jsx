@@ -7,26 +7,22 @@ import { useCheckAuthenticatedQuery } from "../api/apiSlice";
 
 export default function AppBar() {
   const { data } = useCheckAuthenticatedQuery();
+  const isAuthenticated = data ? data.isAuthenticated : false;
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
+    <Container fluid className="bg-body-tertiary py-2 fs-3">
+      <Container className="d-flex justify-content-between">
         <Navbar.Brand as={NavLink} to="/">
           Session Auth
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbar-nav" />
-        <Navbar.Collapse id="navbar-nav" className="justify-content-end">
-          <Nav>
-            {data.isAuthenticated ? (
-              <AccountMenu />
-            ) : (
-              <Nav.Link as={NavLink} to={"/auth/login"}>
-                Sign in
-              </Nav.Link>
-            )}
-          </Nav>
-        </Navbar.Collapse>
+        {isAuthenticated ? (
+          <AccountMenu />
+        ) : (
+          <Nav.Link as={NavLink} to={"/auth/login"}>
+            Sign in
+          </Nav.Link>
+        )}
       </Container>
-    </Navbar>
+    </Container>
   );
 }

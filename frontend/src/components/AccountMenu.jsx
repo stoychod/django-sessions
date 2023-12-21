@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import NavLink from "react-bootstrap/NavLink";
 import Cookies from "js-cookie";
@@ -22,13 +22,18 @@ export default function AccountMenu() {
     }
   }
   return (
-    <Dropdown>
-      <Dropdown.Toggle as={NavLink} id="dropdown-basic">
-        <MdAccountCircle className="fs-3" />
+    <Dropdown drop="down-centered" className="d-flex">
+      <Dropdown.Toggle
+        as={NavLink}
+        id="dropdown-basic"
+        className="d-flex align-items-center"
+      >
+        <MdAccountCircle />
       </Dropdown.Toggle>
-
       <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Account</Dropdown.Item>
+        <Dropdown.Item as={RouterLink} to="/dashboard">
+          Account
+        </Dropdown.Item>
         <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

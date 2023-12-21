@@ -158,4 +158,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # (e.g.Host: localhost:5173, Origin: http://localhost:5173)
 # you need to include the Origin in the CSRF_TRUSTED_ORIGINS list
 # https://docs.djangoproject.com/en/4.2/ref/settings/#csrf-trusted-origins
-CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173', 'http://192.168.10.17:5173']
