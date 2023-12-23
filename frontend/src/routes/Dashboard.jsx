@@ -13,7 +13,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import {
   useGetUserProfileQuery,
   useUpdateUserProfileMutation,
-} from "../api/apiSlice.js";
+} from "api/apiSlice.js";
 
 export default function Register() {
   const csrftoken = Cookies.get("csrftoken");

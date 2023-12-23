@@ -1,17 +1,17 @@
 import "the-new-css-reset/css/reset.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
+import "src/index.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "./store/store.js";
-import Root from "./routes/Root";
-import Home from "./routes/Home";
-import Dashboard from "./routes/Dashboard";
-import Register from "./routes/Register";
-import Login from "./routes/Login";
-import ErrorPage from "./routes/Error";
+import store from "store/store";
+import Root from "routes/Root";
+import Home from "routes/Home";
+import Dashboard from "routes/Dashboard";
+import Register from "routes/Register";
+import Login from "routes/Login";
+import ErrorPage from "routes/Error";
 
 const router = createBrowserRouter([
   {

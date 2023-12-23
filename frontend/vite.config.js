@@ -9,4 +9,13 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  resolve: {
+    alias: {
+      src: "/src",
+      components: "/src/components",
+      routes: "/src/routes",
+      store: "/src/store",
+      api: "/src/api",
+    },
+  },
 });

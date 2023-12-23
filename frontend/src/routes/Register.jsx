@@ -7,11 +7,11 @@ import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import Divider from "../components/Divider.jsx";
+import Divider from "components/Divider.jsx";
 import {
   useGetCSRFCookieQuery,
   useRegisterUserMutation,
-} from "../api/apiSlice.js";
+} from "api/apiSlice.js";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {

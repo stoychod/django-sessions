@@ -3,7 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import NavLink from "react-bootstrap/NavLink";
 import Cookies from "js-cookie";
 import { MdAccountCircle } from "react-icons/md";
-import { useLogoutUserMutation } from "../api/apiSlice";
+import { useLogoutUserMutation } from "api/apiSlice";
 
 export default function AccountMenu() {
   const [logoutUser] = useLogoutUserMutation();
