@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
 
 export default function Home() {
   return (
@@ -12,15 +10,10 @@ export default function Home() {
           CSRF token
         </p>
         <hr className="my-4" />
-        <p>Click the button below to sign in</p>
-        <Button
-          variant="primary"
-          // @ts-ignore
-          as={Link}
-          to={"/auth/login"}
-        >
-          Sign in
-        </Button>
+        <p>
+          The app implements a full CRUD functionality. You can create, update
+          or delete an account.
+        </p>
       </Container>
     </Container>
   );

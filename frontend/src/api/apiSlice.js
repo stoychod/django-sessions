@@ -62,6 +62,16 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["UserProfile"],
     }),
+    deleteUser: builder.mutation({
+      query: (csrftoken) => ({
+        url: "/accounts/delete/",
+        method: "DELETE",
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      }),
+      invalidatesTags: ["Authenticated"],
+    }),
   }),
 });
 
@@ -73,4 +83,5 @@ export const {
   useLogoutUserMutation,
   useGetUserProfileQuery,
   useUpdateUserProfileMutation,
+  useDeleteUserMutation,
 } = apiSlice;

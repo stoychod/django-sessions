@@ -13,19 +13,40 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import {
   useGetUserProfileQuery,
   useUpdateUserProfileMutation,
+  useDeleteUserMutation,
 } from "api/apiSlice.js";
+import { useNavigate } from "react-router-dom";
 
-export default function Register() {
+export default function Dashboard() {
+  const navigate = useNavigate();
+
   const csrftoken = Cookies.get("csrftoken");
   if (!csrftoken) {
     throw new Error("No csrf token found!");
   }
 
-  const { data: profile, isLoading } = useGetUserProfileQuery(csrftoken);
+  const { data: profile, isLoading: userProfileLoading } =
+    useGetUserProfileQuery(csrftoken);
   console.log(profile);
 
   const [updateUserProfile, { error: updateProfileError }] =
     useUpdateUserProfileMutation();
+
+  const [deleteUser, { isLoading: deleteUserLoading }] =
+    useDeleteUserMutation();
+
+  async function handleDeleteUser() {
+    try {
+      // you need the unwrap() call to get any error which will go in the catch block
+      //pass the CSRFToken to mutation to be set as X-CSRFToken header
+      await deleteUser(csrftoken).unwrap();
+
+      // if response is ok navigate home
+      navigate("/");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
   const renderError = (err) => {
     if (err) {
@@ -39,12 +60,12 @@ export default function Register() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (userProfileLoading) return <div>Loading...</div>;
 
   return (
     <Container>
       <h1 className="text-center mt-3">User dashboard</h1>
-      <Row>
+      <Row className="mx-1">
         <Col className="col-md-11 col-lg-8 col-xl-7 col-xxl-6 form-container rounded border border-1 border-secondary-subtle p-5 mx-auto mt-5">
           <Formik
             initialValues={{
@@ -160,6 +181,14 @@ export default function Register() {
               </>
             )}
           </Formik>
+          <Button
+            variant="danger"
+            className="mt-3 w-100"
+            disabled={deleteUserLoading}
+            onClick={handleDeleteUser}
+          >
+            {deleteUserLoading ? "Deleting account..." : "Delete account"}
+          </Button>
         </Col>
       </Row>
     </Container>
