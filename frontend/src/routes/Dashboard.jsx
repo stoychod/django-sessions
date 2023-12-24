@@ -27,7 +27,7 @@ export default function Dashboard() {
 
   const { data: profile, isLoading: userProfileLoading } =
     useGetUserProfileQuery(csrftoken);
-  console.log(profile);
+  // console.log(profile);
 
   const [updateUserProfile, { error: updateProfileError }] =
     useUpdateUserProfileMutation();

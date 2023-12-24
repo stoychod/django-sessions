@@ -11,6 +11,7 @@ import Home from "routes/Home";
 import Dashboard from "routes/Dashboard";
 import Register from "routes/Register";
 import Login from "routes/Login";
+import RequireAuth from "components/RequireAuth";
 import ErrorPage from "routes/Error";
 
 const router = createBrowserRouter([
@@ -20,9 +21,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
-      { path: "dashboard", element: <Dashboard /> },
       { path: "auth/register", element: <Register /> },
       { path: "auth/login", element: <Login /> },
+      {
+        element: <RequireAuth />,
+        children: [{ path: "dashboard", element: <Dashboard /> }],
+      },
     ],
   },
 ]);

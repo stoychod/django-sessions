@@ -25,7 +25,7 @@ export default function Login() {
   // if the above call was successful grab the cookie from browser storage
   if (CSRFTokenSuccess) {
     csrftoken = Cookies.get("csrftoken");
-    console.log(csrftoken);
+    // console.log(csrftoken);
   } else if (CSRFTokenError) {
     console.error("Error:", CSRFTokenError);
   }
