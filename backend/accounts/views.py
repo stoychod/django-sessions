@@ -43,7 +43,7 @@ class SignupView(APIView):
 
                     # and a user profile for that user
                     UserProfile.objects.create(
-                        user=user, first_name='', last_name='', phone='', city=''
+                        user=user, firstName='', lastName='', phone='', city=''
                     )
                     return Response({'message': 'User created successfully.'})
         else:
