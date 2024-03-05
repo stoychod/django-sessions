@@ -5,7 +5,9 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   server: {
     proxy: {
-      "/api": "http://localhost:8000",
+// Starting with node 17, localhost resolution favours ipv6 addresses so you need to specify
+// the ipv4 address explicitly- https://github.com/vitejs/vite/discussions/7620
+      "/api": "http://127.0.0.1:8000",
     },
   },
   plugins: [react()],
