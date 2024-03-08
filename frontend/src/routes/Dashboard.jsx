@@ -16,6 +16,7 @@ import {
   useDeleteUserMutation,
 } from "api/apiSlice.js";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -43,7 +44,9 @@ export default function Dashboard() {
 
       // if response is ok navigate home
       navigate("/");
+      toast.success("User account deleted successfully.")
     } catch (error) {
+      toast.error("Could not delete user account.")
       console.error("Error:", error);
     }
   }
@@ -99,7 +102,9 @@ export default function Dashboard() {
                   userData: values,
                   csrftoken: csrftoken,
                 }).unwrap();
+                toast.success("User profile updated successfully.")
               } catch (error) {
+                toast.error("Could not update user profile.")
                 console.error("Error:", error);
               }
             }}

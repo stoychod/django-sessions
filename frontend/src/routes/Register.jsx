@@ -13,6 +13,7 @@ import {
   useRegisterUserMutation,
 } from "api/apiSlice.js";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -76,7 +77,9 @@ export default function Register() {
               // if response is ok reset the form
               resetForm();
               navigate("/auth/login");
+              toast.success("User account created successfully.")
             } catch (error) {
+              toast.error("User account created successfully.")
               console.error("Error:", error);
             }
           }}
