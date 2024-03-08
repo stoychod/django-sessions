@@ -79,7 +79,7 @@ export default function Register() {
               navigate("/auth/login");
               toast.success("User account created successfully.")
             } catch (error) {
-              toast.error("User account created successfully.")
+              toast.error("Could not create user account.")
               console.error("Error:", error);
             }
           }}
