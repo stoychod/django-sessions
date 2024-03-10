@@ -8,8 +8,13 @@ import Modal from "react-bootstrap/Modal";
 import FormControl from "react-bootstrap/FormControl";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useConfirmPasswordMutation } from "api/apiSlice.js";
+import PropTypes from "prop-types";
 
-function ConfirmPasswordModal({ showModal, handleCloseModal, modalData }) {
+export default function ConfirmPasswordModal({
+  showModal,
+  handleCloseModal,
+  modalData,
+}) {
   const { headerBgColour, title, action } = modalData;
 
   // get CSRF token
@@ -123,4 +128,12 @@ function ConfirmPasswordModal({ showModal, handleCloseModal, modalData }) {
   );
 }
 
-export default ConfirmPasswordModal;
+ConfirmPasswordModal.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  handleCloseModal: PropTypes.func.isRequired,
+  modalData: PropTypes.shape({
+    headerBgColour: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    action: PropTypes.func.isRequired,
+  }),
+};
