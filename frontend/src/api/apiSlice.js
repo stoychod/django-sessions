@@ -43,6 +43,16 @@ export const apiSlice = createApi({
       query: () => "/accounts/authenticated/",
       providesTags: ["Authenticated"],
     }),
+    confirmPassword: builder.mutation({
+      query: ({ userData, csrftoken }) => ({
+        url: "/accounts/confirm_password/",
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+        body: userData,
+      }),
+    }),
     getUserProfile: builder.query({
       query: (csrftoken) => ({
         url: "/profile/",
@@ -83,5 +93,6 @@ export const {
   useLogoutUserMutation,
   useGetUserProfileQuery,
   useUpdateUserProfileMutation,
+  useConfirmPasswordMutation,
   useDeleteUserMutation,
 } = apiSlice;
