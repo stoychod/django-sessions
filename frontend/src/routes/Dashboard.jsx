@@ -26,7 +26,7 @@ export default function Dashboard() {
   const [modalData, setModalData] = useState({
     headerBgColour: "",
     title: "",
-    action: null,
+    action: function () {},
   });
 
   function handleShowModal() {
