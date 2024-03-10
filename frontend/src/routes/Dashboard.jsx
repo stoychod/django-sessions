@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import YupPassword from "yup-password";
@@ -17,26 +18,73 @@ import {
 } from "api/apiSlice.js";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import ConfirmPasswordModal from "components/ConfirmPasswordModal";
 
 export default function Dashboard() {
+  // Confirm password modal state
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({
+    headerBgColour: "",
+    title: "",
+    action: null,
+  });
+
+  function handleShowModal() {
+    setShowModal(true);
+  }
+
+  function handleCloseModal() {
+    setShowModal(false);
+  }
+
   const navigate = useNavigate();
 
+  // get CSRF token
   const csrftoken = Cookies.get("csrftoken");
   if (!csrftoken) {
     throw new Error("No csrf token found!");
   }
 
+  // RTK Query hooks
   const { data: profile, isLoading: userProfileLoading } =
     useGetUserProfileQuery(csrftoken);
   // console.log(profile);
 
-  const [updateUserProfile, { error: updateProfileError }] =
-    useUpdateUserProfileMutation();
+  const [
+    updateUserProfile,
+    { error: updateProfileError, isLoading: updateUserLoading },
+  ] = useUpdateUserProfileMutation();
 
   const [deleteUser, { isLoading: deleteUserLoading }] =
     useDeleteUserMutation();
 
-  async function handleDeleteUser() {
+  // update account handlers
+  async function updateAccount(values) {
+    try {
+      // you need the unwrap() call to get any error which will go in the catch block
+      //pass the CSRFToken to mutation to be set as X-CSRFToken header
+      await updateUserProfile({
+        userData: values,
+        csrftoken: csrftoken,
+      }).unwrap();
+      toast.success("User profile updated successfully.");
+    } catch (error) {
+      toast.error("Could not update user profile.");
+      console.error("Error:", error);
+    }
+  }
+
+  function handleUpdateAccount(values) {
+    setModalData({
+      headerBgColour: "bg-primary",
+      title: "Update account",
+      action: updateAccount.bind(null, values),
+    });
+    handleShowModal();
+  }
+
+  // delete account handlers
+  async function deleteAccount() {
     try {
       // you need the unwrap() call to get any error which will go in the catch block
       //pass the CSRFToken to mutation to be set as X-CSRFToken header
@@ -44,13 +92,23 @@ export default function Dashboard() {
 
       // if response is ok navigate home
       navigate("/");
-      toast.success("User account deleted successfully.")
+      toast.success("User account deleted successfully.");
     } catch (error) {
-      toast.error("Could not delete user account.")
+      toast.error("Could not delete user account.");
       console.error("Error:", error);
     }
   }
 
+  function handleDeleteAccount() {
+    setModalData({
+      headerBgColour: "bg-danger",
+      title: "Delete account",
+      action: deleteAccount,
+    });
+    handleShowModal();
+  }
+
+  // error handler
   const renderError = (err) => {
     if (err) {
       if (err.data) {
@@ -94,22 +152,9 @@ export default function Dashboard() {
                 .min(2, "Must be at least 2 characters")
                 .max(50, "Must be less than 50 characters"),
             })}
-            onSubmit={async (values) => {
-              try {
-                // you need the unwrap() call to get any error which will go in the catch block
-                //pass the CSRFToken to mutation to be set as X-CSRFToken header
-                await updateUserProfile({
-                  userData: values,
-                  csrftoken: csrftoken,
-                }).unwrap();
-                toast.success("User profile updated successfully.")
-              } catch (error) {
-                toast.error("Could not update user profile.")
-                console.error("Error:", error);
-              }
-            }}
+            onSubmit={handleUpdateAccount}
           >
-            {({ isSubmitting }) => (
+            {() => (
               <>
                 <h1 className=" fs-3 mb-3">Update user profile</h1>
                 <Form className="d-flex flex-column">
@@ -178,9 +223,11 @@ export default function Dashboard() {
                   <Button
                     variant="primary"
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={updateUserLoading}
                   >
-                    {isSubmitting ? "Updating profile..." : "Update profile"}
+                    {updateUserLoading
+                      ? "Updating profile..."
+                      : "Update profile"}
                   </Button>
                 </Form>
               </>
@@ -190,12 +237,19 @@ export default function Dashboard() {
             variant="danger"
             className="mt-3 w-100"
             disabled={deleteUserLoading}
-            onClick={handleDeleteUser}
+            onClick={handleDeleteAccount}
           >
             {deleteUserLoading ? "Deleting account..." : "Delete account"}
           </Button>
         </Col>
       </Row>
+      <ConfirmPasswordModal
+        showModal={showModal}
+        // modalTitle={modalTitle}
+        // accountAction={accountAction}
+        modalData={modalData}
+        handleCloseModal={handleCloseModal}
+      />
     </Container>
   );
 }
