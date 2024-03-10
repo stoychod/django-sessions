@@ -104,6 +104,30 @@ class CheckAuthenticatedView(APIView):
         return Response({'isAuthenticated': request.user.is_authenticated})
 
 
+class ConfirmPasswordView(APIView):
+
+    def post(self, request, format=None):
+
+        # Check for missing credentials
+        try:
+            user = User.objects.get(id=request.user.id)
+            password = request.data['password']
+        except KeyError as credential:
+            print('Invalid credential:', credential)
+            string_credential = credential.__str__().strip("'")
+            message = f'Please provide a valid {string_credential}.'
+            return Response({'message': message}, status.HTTP_400_BAD_REQUEST)
+
+        pass_match = user.check_password(password)
+
+        if pass_match:
+            return Response({'message': 'Passwords match.'})
+        else:
+            return Response(
+                {'message': 'Incorrect password.'}, status.HTTP_401_UNAUTHORIZED
+            )
+
+
 class DeleteAccountView(APIView):
     def delete(self, request, format=None):
         user = User.objects.get(id=request.user.id)

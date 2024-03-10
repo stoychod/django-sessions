@@ -5,6 +5,7 @@ from .views import (
     LoginView,
     LogoutView,
     CheckAuthenticatedView,
+    ConfirmPasswordView,
     DeleteAccountView,
 )
 
@@ -13,6 +14,7 @@ urlpatterns = [
     path("register/", SignupView.as_view()),
     path("login/", LoginView.as_view()),
     path("logout/", LogoutView.as_view()),
-    path("delete/", DeleteAccountView.as_view()),
     path("authenticated/", CheckAuthenticatedView.as_view()),
+    path("confirm_password/", ConfirmPasswordView.as_view()),
+    path("delete/", DeleteAccountView.as_view()),
 ]
