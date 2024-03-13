@@ -20,4 +20,7 @@ export default defineConfig({
       api: "/src/api",
     },
   },
+  build: {
+    assetsDir: 'static'
+  }
 });

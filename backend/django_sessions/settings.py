@@ -17,7 +17,7 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# print(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -65,7 +65,7 @@ ROOT_URLCONF = 'django_sessions.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR.joinpath('build')],  # template folder
+        'DIRS': [BASE_DIR.parent.joinpath('frontend/dist')],  # template folder
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,6 +77,8 @@ TEMPLATES = [
         },
     },
 ]
+
+# print(TEMPLATES[0]["DIRS"])
 
 WSGI_APPLICATION = 'django_sessions.wsgi.application'
 
@@ -131,10 +133,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-# static dirs where React static files will go
-STATICFILES_DIRS = [BASE_DIR.joinpath('build/static')]
 STATIC_ROOT = BASE_DIR.joinpath('static')
+# static dirs where React static files will go
+# !IMPORTANT - The last segment of the path MUST match STATIC_URL
+# i.e. if STATIC_URL='assets/' STATICFILES_DIRS MUST be 'frontend/dist/assets'
+STATICFILES_DIRS = [BASE_DIR.parent.joinpath('frontend/dist/static')]
 
+# print(STATICFILES_DIRS)
 
 REST_FRAMEWORK = {
     # To access any view the user has to be authenticated. Any unauthenticated

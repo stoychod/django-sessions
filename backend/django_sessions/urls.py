@@ -28,4 +28,4 @@ urlpatterns = [
 ]
 
 # If none of the urls above a matched forward routing to React
-# urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
+urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
