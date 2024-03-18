@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 from pathlib import Path
 from os import getenv
 from dotenv import load_dotenv
@@ -18,8 +19,6 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # print(BASE_DIR)
-BACKEND_DIR = BASE_DIR
-FRONTEND_DIR = BASE_DIR.parent / 'frontend'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -67,7 +66,7 @@ ROOT_URLCONF = 'django_sessions.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [FRONTEND_DIR / 'dist'],  # template folder
+        'DIRS': ['build'],  # template folder
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,7 +138,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 # static dirs where React static files will go
 # !IMPORTANT - The last segment of the path MUST match STATIC_URL
 # i.e. if STATIC_URL='assets/' STATICFILES_DIRS MUST be 'dist/assets'
-STATICFILES_DIRS = [FRONTEND_DIR / 'dist/static']
+STATICFILES_DIRS = ['build/static']
 
 # print(STATICFILES_DIRS)
 
