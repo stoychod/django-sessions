@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    # automatically restart the container
+    restart: always
+    volumes:
+      - .:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - .env.prod
+    depends_on:
+      - db
+  db:
+    container_name: django_sessions_postgres_prod
+    image: postgres
+    # automatically restart the container
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    env_file:
+      - .env.prod.db
+volumes:
+  db-data:
+    name: django_sessions_postgres_prod
