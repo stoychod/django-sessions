@@ -6,9 +6,11 @@
     "dotenv",
     "dpage",
     "Formik",
+    "gunicorn",
     "ipam",
     "pgadmin",
-    "reduxjs"
+    "reduxjs",
+    "wsgi"
   ],
   "flake8.args": [
     "--max-line-length=100"

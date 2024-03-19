@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from os import getenv
-from dotenv import load_dotenv
 
+from dotenv import load_dotenv
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,7 +32,12 @@ SECRET_KEY = getenv('SECRET_KEY', 'very_secret_key')
 # Get the DEBUG environment variable, default to False
 DEBUG = getenv('DEBUG') == 'True'
 
+# 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
+# For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 ALLOWED_HOSTS = []
+ALLOWED_HOSTS_ENV = getenv("DJANGO_ALLOWED_HOSTS")
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(' '))
 
 
 # Application definition
