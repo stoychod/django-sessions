@@ -14,6 +14,7 @@ from pathlib import Path
 from os import getenv
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -35,7 +36,7 @@ DEBUG = getenv('DEBUG') == 'True'
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 ALLOWED_HOSTS = []
-ALLOWED_HOSTS_ENV = getenv("DJANGO_ALLOWED_HOSTS")
+ALLOWED_HOSTS_ENV = getenv('DJANGO_ALLOWED_HOSTS')
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(' '))
 
@@ -95,11 +96,12 @@ WSGI_APPLICATION = 'django_sessions.wsgi.application'
 DATABASES = {
     'default': {
         # Get database settings from environment
-        'ENGINE': getenv('DB_ENGINE'),
-        'NAME': getenv('DB_NAME'),
-        'USER': getenv('DB_USER'),
-        'PASSWORD': getenv('DB_PASSWORD'),
-        'HOST': getenv('DB_HOST'),
+        'ENGINE': getenv('DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': getenv('DB_NAME', BASE_DIR / 'db.sqlite3'),
+        'USER': getenv('DB_USER', 'user'),
+        'PASSWORD': getenv('DB_PASSWORD', 'password'),
+        'HOST': getenv('DB_HOST', 'localhost'),
+        'PORT': getenv('DB_PORT', '5432'),
     }
 }
 
@@ -139,7 +141,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 # static dirs where React static files will go
 # !IMPORTANT - The last segment of the path MUST match STATIC_URL
 # i.e. if STATIC_URL='assets/' STATICFILES_DIRS MUST be 'dist/assets'
@@ -169,4 +171,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # (e.g.Host: localhost:5173, Origin: http://localhost:5173)
 # you need to include the Origin in the CSRF_TRUSTED_ORIGINS list
 # https://docs.djangoproject.com/en/4.2/ref/settings/#csrf-trusted-origins
-CSRF_TRUSTED_ORIGINS = ['http://localhost:5173', 'http://192.168.10.17:5173']
+CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS_ENV = getenv('DJANGO_CSRF_TRUSTED_ORIGINS')
+if CSRF_TRUSTED_ORIGINS_ENV:
+    CSRF_TRUSTED_ORIGINS.extend(CSRF_TRUSTED_ORIGINS_ENV.split(' '))
