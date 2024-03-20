@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   web:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.dev
     command: gunicorn django_sessions.wsgi:application --bind 0.0.0.0:8000
@@ -25,6 +25,18 @@ services:
       - db-data:/var/lib/postgresql/data
     env_file:
       - .env.prod.db
+  pgadmin:
+    container_name: django_sessions_pgadmin4_prod
+    image: dpage/pgadmin4
+    # automatically restart the container
+    restart: always
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    env_file: .env.prod
+    depends_on:
+      - db
   nginx:
     build: ./nginx
     # automatically restart the container
@@ -32,10 +44,12 @@ services:
     volumes:
       - static_volume:/home/app/web/staticfiles
     ports:
-      - 1337:80
+      - 8001:80
     depends_on:
       - web
 volumes:
   db-data:
     name: django_sessions_postgres_prod
+  pgadmin-data:
+    name: django_sessions_pgadmin4_prod
   static_volume:
