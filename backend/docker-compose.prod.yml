@@ -5,51 +5,56 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    image: django_sessions-web
+    container_name: django_sessions-web
     command: gunicorn django_sessions.wsgi:application --bind 0.0.0.0:8000
-    # automatically restart the container
-    restart: always
     volumes:
       - static_volume:/home/app/web/staticfiles
     expose:
       - 8000
     env_file:
       - .env.prod
+    # automatically restart the container
+    restart: always
     depends_on:
       - db
   db:
-    container_name: django_sessions_postgres_prod
     image: postgres
-    # automatically restart the container
-    restart: always
+    container_name: django_sessions-postgres
     volumes:
       - db-data:/var/lib/postgresql/data
     env_file:
       - .env.prod.db
-  pgadmin:
-    container_name: django_sessions_pgadmin4_prod
-    image: dpage/pgadmin4
     # automatically restart the container
     restart: always
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: django_sessions-pgadmin4
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     ports:
       - "5050:80"
     env_file: .env.prod
+    # automatically restart the container
+    restart: always
     depends_on:
       - db
   nginx:
     build: ./nginx
-    # automatically restart the container
-    restart: always
+    image: django_sessions-nginx
+    container_name: django_sessions-nginx
     volumes:
       - static_volume:/home/app/web/staticfiles
     ports:
       - 8001:80
+    # automatically restart the container
+    restart: always
     depends_on:
       - web
 volumes:
   db-data:
-    name: django_sessions_postgres_prod
+    name: django_sessions-postgres
   pgadmin-data:
-    name: django_sessions_pgadmin4_prod
+    name: django_sessions-pgadmin4
   static_volume:
+    name: django_sessions-static_volume
