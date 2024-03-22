@@ -1,19 +1,22 @@
 version: "3.8"
 
+name: django_sessions
+
 services:
   web:
     build:
-      context: .
+      context: ../backend
       dockerfile: Dockerfile.dev
     image: django_sessions-web
     container_name: django_sessions-web
     command: gunicorn django_sessions.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - static_volume:/home/app/web/staticfiles
+      # - static_volume:/home/app/web/staticfiles
+      - static_volume:/usr/src/app/staticfiles
     expose:
       - 8000
     env_file:
-      - .env.prod
+      - ./.env.prod
     # automatically restart the container
     restart: always
     depends_on:
@@ -24,7 +27,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     env_file:
-      - .env.prod.db
+      - ./.env.prod.db
     # automatically restart the container
     restart: always
   pgadmin:
@@ -34,7 +37,8 @@ services:
       - pgadmin-data:/var/lib/pgadmin
     ports:
       - "5050:80"
-    env_file: .env.prod
+    env_file: 
+      - ./.env.prod
     # automatically restart the container
     restart: always
     depends_on:
