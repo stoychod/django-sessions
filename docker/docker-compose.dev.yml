@@ -6,12 +6,12 @@ services:
   web:
     build:
       context: ../backend
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.dev
     image: django_sessions-web
     container_name: django_sessions-web
     command: gunicorn django_sessions.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - static_volume:/home/app/web/staticfiles
+      - static_volume:/usr/src/app/staticfiles
     expose:
       - 8000
     env_file:
