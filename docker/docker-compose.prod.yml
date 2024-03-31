@@ -9,7 +9,8 @@ services:
       dockerfile: Dockerfile.prod
     image: django_sessions-web
     container_name: django_sessions-web
-    command: gunicorn django_sessions.wsgi:application --bind 0.0.0.0:8000
+    # command: gunicorn django_sessions.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn --access-logfile '-' --access-logformat 'Remote address:%({X-Real-IP}i)s, Host:%({Host}i)s, Origin:%({Origin}i)s, User:%(u)s, Time:%(t)s, Status:"%(r)s" - %(s)s' django_sessions.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/home/app/web/staticfiles
     expose:
