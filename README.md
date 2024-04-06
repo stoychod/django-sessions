@@ -1,8 +1,8 @@
 A simple web application implementing session authentication with CSRF tokens and protected routes using [Django](https://www.djangoproject.com/) with [Django REST framework](https://www.django-rest-framework.org/)
 and [PostgreSQL](https://www.postgresql.org/) as a back end and [React](https://react.dev/) ( functional components with  `hooks` and [React router v6](https://reactrouter.com/en/main) )
 with [Redux](https://redux.js.org/) ( [React-redux](https://react-redux.js.org/), [Redux toolkit](https://redux-toolkit.js.org/) and [RTK query](https://redux-toolkit.js.org/rtk-query/overview) )
-and [Bootstrap v5](https://getbootstrap.com/) as a front end. The back end is containerized using [Docker compose](https://docs.docker.com/compose/).
-The app implements a full CRUD functionality - an user account can be created, updated or deleted. It has a responsive design and adapts to the screen size.
+and [Bootstrap v5](https://getbootstrap.com/) as a front end. It implements a full CRUD functionality - an user account can be created, updated or deleted. The UI has a responsive design and adapts to the screen size.
+The back end is containerized using [Docker compose](https://docs.docker.com/compose/) for ease of development and deployment. The app can be viewed live here - [django-sessions](https://django-sessions.stoychodonev.uk/).
 
 
 <div>
